@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Tab Styling -->
+    <title>Educanon Gifts</title>
+    <link rel="shortcut icon" href="http://www.educanon.com/static/img/dachshundsplash.png">
+
+    <!-- Stylesheets and Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/2.3.1/spruce/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="public/stylesheets/main.css">
+
+    <!-- Javascripts Links and Dependencies-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+
+    <!-- Javacript references -->
+    <script type="text/javascript" src="public/javascripts/root.js"></script>
+    <script src="public/javascripts/ngDraggable.js"></script>
+  </head>
+
+  <body ng-app="mainApp">
+    <div class="container" ng-controller="MainCtrl">
+
+      <div class="row">
+        <h1>Organize gifts and folders!</h1>
+      </div>
+
+          <ul class="draggable-objects">
+              <li ng-repeat="obj in draggableObjects" >
+                  <div ng-drag="true" ng-drag-data="obj"> {{obj.name}} </div>
+              </li>
+          </ul>
+
+      <div ng-drop="true" ng-drop-success="onDropComplete1($data,$event)">
+          <span class="title">Folder 1</span>
+
+          <div ng-repeat="obj in droppedObjects1" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess1($data,$event)" ng-center-anchor="{{centerAnchor}}">
+              {{obj.name}}
+          </div>
+
+      </div>
+
+      <div ng-drop="true" ng-drop-success="onDropComplete2($data,$event)">
+          <span class="title">Folder 2</span>
+
+          <div ng-repeat="obj in droppedObjects2" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess2($data,$event)" ng-center-anchor="{{centerAnchor}}">
+              {{obj.name}}
+          </div>
+
+      </div>
+
+      <hr>
+
+    </div>
+  </body>
+
+</html>
