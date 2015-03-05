@@ -24,24 +24,46 @@
     <div class="container" ng-controller="MainCtrl">
 
       <div class="row">
-        <h1>Organize gifts and folders!</h1>
+        <center>
+          <div class="heading-title">Organize your gifts and folders</div>
+        </center>
       </div>
 
+      <br>
+      <div class="folderNameForm">
+        <input ng-model="nameForNewFolder" placeholder="Enter New Folder Name"></input>
+        <input type="submit" ng-click="createFolder()" value="Create Folder"></input>    
+      </div>
+      <br><br>
+
+      <div class="itemNameForm">   
+        <input ng-model="nameForNewItem" placeholder="Enter Item Name"></input><br>
+        <input ng-model="costForNewItem" placeholder="Enter Item Cost"></input>
+        <input type="submit" ng-click="createItem()" value="Create Item"></input> 
+      </div>    
+        <br><br>
+
+        {{nameForNewItem}} <br>
+        {{costForNewItem}}
+
+        <!-- list of items -->
           <ul class="draggable-objects">
-              <li ng-repeat="obj in draggableObjects" >
-                  <div ng-drag="true" ng-drag-data="obj"> {{obj.name}} </div>
+              <li ng-repeat="newItem in items track by $index" >
+                  <div ng-drag="true" ng-drag-data="obj"> {{$index}} {{newItem.itemKeyName}} - {{newItem.itemKeyCost}}</div>
               </li>
           </ul>
 
+      <!-- Default Folder with content -->
       <div ng-drop="true" ng-drop-success="onDropComplete1($data,$event)">
-          <span class="title">Folder 1</span>
+          <span class="title">{{defaultFolder.folderName}}</span>
 
-          <div ng-repeat="obj in droppedObjects1" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess1($data,$event)" ng-center-anchor="{{centerAnchor}}">
-              {{obj.name}}
+          <div ng-repeat="item in droppedObjects1" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess1($data,$event)" ng-center-anchor="{{centerAnchor}}">
+              {{$index}} {{item.itemKeyName}} - {{item.itemKeyCost}}
           </div>
 
       </div>
 
+      <!-- List of Other Folders -->
       <div ng-drop="true" ng-drop-success="onDropComplete2($data,$event)">
           <span class="title">Folder 2</span>
 
