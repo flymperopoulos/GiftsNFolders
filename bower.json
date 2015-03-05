@@ -1,16 +1,16 @@
-// {
-//   "name": "ngDraggable",
-//   "main": "ngDraggable.js",
-//   "version": "0.0.4.1",
-//   "homepage": "https://github.com/fatlinesofcode/ngDraggable",
-//   "ignore": [
-//     "**/.*",
-//     "node_modules",
-//     "bower_components",
-//     "test",
-//     "tests"
-//   ],
-//   "dependencies": {
-//     "angular": "latest"
-//   }
-// }
+{
+  "name": "ngDraggable",
+  "main": "ngDraggable.js",
+  "version": "0.0.4.1",
+  "homepage": "https://github.com/fatlinesofcode/ngDraggable",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "latest"
+  }
+}
