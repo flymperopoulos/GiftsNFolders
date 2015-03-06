@@ -7,13 +7,13 @@
     <link rel="shortcut icon" href="http://www.educanon.com/static/img/dachshundsplash.png">
 
     <!-- Stylesheets and Bootstrap -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/2.3.1/spruce/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="public/stylesheets/main.css">
 
     <!-- Javascripts Links and Dependencies-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script> -->
 
     <!-- Javacript references -->
     <script type="text/javascript" src="public/javascripts/root.js"></script>
@@ -25,57 +25,67 @@
 
       <div class="row">
         <center>
-          <div class="heading-title">Organize your gifts and folders</div>
+          <div class="heading-title">Organize your folders, one gift at a time</div>
+          <img src="public/images/boxlogo.jpg">
         </center>
       </div>
 
-      <br>
-      <div class="folderNameForm">
-        <input ng-model="nameForNewFolder" placeholder="Enter New Folder Name"></input>
-        <input type="submit" ng-click="createFolder()" value="Create Folder"></input>    
-      </div>
-      <br><br>
+      <center>
+        <div class="folderNameForm">
+          <input ng-model="nameForNewFolder" placeholder=" New Folder Name"></input>  
+          <button type="button" action="submit" ng-click="createFolder()" class="btn btn-info">Create Folder</button>  
+        </div>
+        <br>
 
-      <div class="itemNameForm">   
-        <input ng-model="nameForNewItem" placeholder="Enter Item Name"></input><br>
-        <input ng-model="costForNewItem" placeholder="Enter Item Cost"></input>
-        <input type="submit" ng-click="createItem()" value="Create Item"></input> 
-      </div>    
+        <div class="itemNameForm">   
+          <input ng-model="nameForNewItem" placeholder="Enter Item Name"></input>
+          <input ng-model="costForNewItem" placeholder="Enter Item Cost"></input>
+          <button type="button" action="submit" ng-click="createItem()" class="btn btn-info">Create Item</button>
+        </div>    
+      </center>
         <br><br>
 
-        {{nameForNewItem}} <br>
-        {{costForNewItem}}
+      <!-- list of items -->
+      <ul class="draggable-objects">
+        <!-- total list of gifts -->
+        <center><u>List of all Gift will be shown below</u></center>
+        <div ng-repeat="item in items track by $index" >
+          <center>
+            <div ng-drag="true" class="x" ng-drag-data="item" style="cursor:move"> {{$index}}) {{item.itemKeyName}} - ${{item.itemKeyCost}}</div>
+          </center>
+        </div>
+      </ul>
 
-        <!-- list of items -->
-          <ul class="draggable-objects">
-              <li ng-repeat="newItem in items track by $index" >
-                  <div ng-drag="true" ng-drag-data="obj"> {{$index}} {{newItem.itemKeyName}} - {{newItem.itemKeyCost}}</div>
-              </li>
-          </ul>
-
-      <!-- Default Folder with content -->
-      <div ng-drop="true" ng-drop-success="onDropComplete1($data,$event)">
-          <span class="title">{{defaultFolder.folderName}}</span>
-
-          <div ng-repeat="item in droppedObjects1" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess1($data,$event)" ng-center-anchor="{{centerAnchor}}">
-              {{$index}} {{item.itemKeyName}} - {{item.itemKeyCost}}
+      <!-- Default Folder and Content -->
+      <ul class="draggable-objects" id="nav">
+          <span class="title" ng-click = "showDefaultFolderGifts()" >{{defaultFolder.folderName}}</span>
+          <div ng-repeat="item in items track by $index">
+              <div ng-drag="true" ng-show= "defaultContent" ng-drag-data="item" style="color:black">  {{$index}}) {{item.itemKeyName}} - ${{item.itemKeyCost}}</div>
           </div>
+      </ul>
 
-      </div>
+      <div class="title" ng-repeat="folder in folders" ng-click = "findCurrentFolder(folder.folderName)" ng-drop="true" ng-drop-success="onDropComplete2($data,$event, folder.folderName)" id="nav2"> {{folder.folderName}}
+     
+        <li ng-repeat="item in folder.itemsContained" ng-if = "showFolder(folder.folderName)"ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess2($data,$event, folder.folderName)" ng-center-anchor="{{centerAnchor}}">
+            {{item.itemKeyName}} - ${{item.itemKeyCost}}
+        </li>
 
-      <!-- List of Other Folders -->
-      <div ng-drop="true" ng-drop-success="onDropComplete2($data,$event)">
-          <span class="title">Folder 2</span>
+      </div> <br>
 
-          <div ng-repeat="obj in droppedObjects2" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess2($data,$event)" ng-center-anchor="{{centerAnchor}}">
-              {{obj.name}}
-          </div>
+      <div class="row">
+        <!-- Folder Viewed -->
+        <div class = "currentFolder" ng-show="defaultContent"> You are currently viewing contents of: {{defaultFolder.folderName}}</div> <br> 
 
-      </div>
-
-      <hr>
-
+        <div class = "currentFolder" ng-show="currentFolder"> You are currently viewing contents of: {{currentFolder}}</div>
     </div>
-  </body>
 
+      <!-- JSON Output -->
+      <div class="footer">
+        <hr>
+        <b>Output JSON Gifts-Folders Relationship:</b> 
+        <br> <u>Default Folder Info:</u> {{defaultFolder}} <br>
+        <u>New Folders Info:</u> {{folders}}
+        <hr>
+      </div>
+  </body>
 </html>

@@ -2,27 +2,21 @@ angular.module('mainApp', ['ngDraggable']).
   controller('MainCtrl', function ($scope) {
 
     $scope.items = [];
-    $scope.currFolderName  = "";
-    $scope.folders = [{
-            folderName : "firstFolder",
-            itemsContained : []
-        }];
-
+    $scope.currentFolder = "";
+    $scope.folders = [ ];
     $scope.defaultFolder = {
         folderName: "Default",
         itemsContained: []
     };
-    
+
     $scope.defaultContent = false;
-    $scope.folderContent = false;
       
     $scope.createItem = function () {  
         $scope.showTable = true;
         
         var newItem = {
             itemKeyName : $scope.nameForNewItem,
-            itemKeyCost : $scope.costForNewItem, 
-            foldersItBelongsTo : [$scope.defaultFolder.folderName]
+            itemKeyCost : $scope.costForNewItem
         }
         
         $scope.items.push(newItem);
@@ -49,40 +43,65 @@ angular.module('mainApp', ['ngDraggable']).
         $scope.centerAnchor = !$scope.centerAnchor
     }
 
-    $scope.draggableObjects = [{name:'one'}, {name:'two'}, {name:'three'}];
     $scope.droppedObjects1 = [];
     $scope.droppedObjects2= [];
+
     $scope.onDropComplete1=function(data,evt){
-        var index = $scope.droppedObjects1.indexOf(data);
-        if (index == -1)
-        $scope.droppedObjects1.push(data);
+        var index = $scope.defaultFolder.itemsContained.indexOf(data);
+        if (index == -1){
+            $scope.defaultFolder.itemsContained.push(data);
+        }
     }
+
     $scope.onDragSuccess1=function(data,evt){
         console.log("133","$scope","onDragSuccess1", "", evt);
-        var index = $scope.droppedObjects1.indexOf(data);
+        var index = $scope.defaultFolder.itemsContained.indexOf(data);
         if (index > -1) {
-            $scope.droppedObjects1.splice(index, 1);
+            $scope.defaultFolder.itemsContained.splice(index, 1);
         }
     }
-    $scope.onDragSuccess2=function(data,evt){
-        var index = $scope.droppedObjects2.indexOf(data);
-        if (index > -1) {
-            $scope.droppedObjects2.splice(index, 1);
-        }
+
+    $scope.onDragSuccess2=function(data,evt, folderName){
+        console.log("onDragSuccess2", folderName);
+        angular.forEach($scope.folders, function(value, key) {
+            if(value.folderName === folderName){
+                index = value.itemsContained.indexOf(data)
+                if (index > -1) {
+                    value.itemsContained.splice(index, 1);
+                }
+            }
+        })
     }
-    $scope.onDropComplete2=function(data,evt){
-        var index = $scope.droppedObjects2.indexOf(data);
-        if (index == -1) {
-            $scope.droppedObjects2.push(data);
-        }
+
+    $scope.onDropComplete2=function(data,evt, folderName){
+        console.log("onDropComplete2", folderName)
+        angular.forEach($scope.folders, function(value, key) {
+            if(value.folderName === folderName){
+                index = value.itemsContained.indexOf(data)
+                if (index == -1) {
+                    value.itemsContained.push(data);
+                }
+            }
+        })
     }
+
     var inArray = function(array, obj) {
         var index = array.indexOf(obj);
     }
 
-
     //shows Default content
     $scope.showDefaultFolderGifts = function (){
         $scope.defaultContent =  !$scope.defaultContent;
-    } 
+    }
+
+    $scope.showFolder = function (folderName){
+        if (folderName === $scope.currentFolder){
+            return true;
+        }
+        return false;
+    }
+
+    $scope.findCurrentFolder = function(folderClicked){
+        $scope.currentFolder = folderClicked;
+    }
 });
