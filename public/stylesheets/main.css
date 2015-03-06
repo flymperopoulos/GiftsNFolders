@@ -40,6 +40,10 @@
     width: 30em;
 }
 
+.title {
+    cursor: pointer;
+}
+
 .itemNameForm {
     margin-left: auto;
     margin-right: auto;

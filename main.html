@@ -64,9 +64,9 @@
           </div>
       </ul>
 
-      <div class="title" ng-repeat="folder in folders" ng-click = "findCurrentFolder(folder.folderName)" ng-drop="true" ng-drop-success="onDropComplete2($data,$event, folder.folderName)" id="nav2"> {{folder.folderName}}
+      <div class="title" ng-repeat="folder in folders" ng-click = "findCurrentFolder(folder.folderName)" ng-drop="true" ng-drop-success="onDropComplete2($data,$event, folder.folderName)" style="color:#00cc00"> {{folder.folderName}}
      
-        <li ng-repeat="item in folder.itemsContained" ng-if = "showFolder(folder.folderName)"ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess2($data,$event, folder.folderName)" ng-center-anchor="{{centerAnchor}}">
+        <li ng-repeat="item in folder.itemsContained" ng-if = "showFolder(folder.folderName)"ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess2($data,$event, folder.folderName)" ng-center-anchor="{{centerAnchor}}" style="color:black">
             {{item.itemKeyName}} - ${{item.itemKeyCost}}
         </li>
 
@@ -74,10 +74,11 @@
 
       <div class="row">
         <!-- Folder Viewed -->
-        <div class = "currentFolder" ng-show="defaultContent"> You are currently viewing contents of: {{defaultFolder.folderName}}</div> <br> 
+        <div class = "currentFolder" ng-show="currentFolder"> Reading contents from folder, with title {{currentFolder}}.</div>
 
-        <div class = "currentFolder" ng-show="currentFolder"> You are currently viewing contents of: {{currentFolder}}</div>
-    </div>
+        <div class = "currentFolder" ng-show="defaultContent"> Reading content from our {{defaultFolder.folderName}} folder.</div> <br> 
+      </div>
+      <br>
 
       <!-- JSON Output -->
       <div class="footer">
